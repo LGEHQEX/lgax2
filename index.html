@@ -756,6 +756,11 @@
        CONTACT TAB
     ══════════════════════════════════════ */
     .contact-group { margin-bottom: 24px; }
+    .contact-group:first-of-type .contact-cards { grid-template-columns: repeat(3, 1fr); }
+    .contact-group:last-of-type .contact-cards  { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 480px) {
+      .contact-group:last-of-type .contact-cards  { grid-template-columns: 1fr; }
+    }
     .contact-group-title {
       font-size: 12px;
       font-weight: 700;
@@ -765,14 +770,14 @@
       margin-bottom: 10px;
       padding-left: 4px;
     }
-    .contact-cards { display: flex; flex-direction: column; gap: 10px; }
+    .contact-cards { display: grid; gap: 10px; }
     .contact-card {
       display: flex;
       align-items: center;
       gap: 16px;
       background: #FAFAF8;
       border-radius: 12px;
-      padding: 18px 22px;
+      padding: 18px 24px;
       box-shadow: var(--shadow);
       border: 1.5px solid var(--lg-border);
     }
