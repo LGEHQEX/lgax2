@@ -1,1 +1,1865 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>임원 AX 역량 강화</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
+  <style>
+    /* ══════════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #F0EDEA;
+      color: #2A0A10;
+      min-height: 100vh;
+    }
+    img { max-width: 100%; display: block; }
+    ul, ol { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    /* ══════════════════════════════════════
+       CSS VARIABLES
+    ══════════════════════════════════════ */
+    :root {
+      --lg-navy:   #8B0029;
+      --lg-navy2:  #6B001F;
+      --lg-blue:   #8B0029;
+      --lg-red:    #A50034;
+      --lg-red2:   #C0003C;
+      --lg-white:  #FFFFFF;
+      --lg-gray:   #F5F5F3;
+      --lg-border: #E2E0DB;
+      --lg-text:   #2C2C2C;
+      --lg-sub:    #6B6560;
+
+      --accent:    #A50034;
+      --accent2:   #8B0029;
+      --card-bg:   #FFFFFF;
+      --shadow:    0 2px 16px rgba(0,0,0,.07);
+      --radius:    14px;
+    }
+
+    /* ══════════════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      background: linear-gradient(140deg, #2C2420 0%, #1E1A18 55%, #3A1A1E 100%);
+      padding: 56px 20px 48px;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(165,0,52,.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Sakura decorations */
+    .sakura-deco {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .sakura-bloom {
+      position: absolute;
+      opacity: .13;
+    }
+    .bloom-1 { width: 160px; top: -30px; right: -20px; }
+    .bloom-2 { width: 110px; top: 40px; left: -10px; opacity: .09; }
+    .bloom-3 { width: 80px;  bottom: 10px; right: 60px; opacity: .10; }
+    .bloom-4 { width: 60px;  bottom: 30px; left: 40px; opacity: .08; }
+
+    /* Falling petals */
+    .petal {
+      position: absolute;
+      width: 8px; height: 12px;
+      background: rgba(255,255,255,.18);
+      border-radius: 50% 50% 50% 0;
+      animation: fall linear infinite;
+      opacity: 0;
+    }
+    .petal:nth-child(1)  { left:10%;  animation-duration:6s;  animation-delay:0s;   width:6px; height:10px; }
+    .petal:nth-child(2)  { left:25%;  animation-duration:8s;  animation-delay:1.5s; }
+    .petal:nth-child(3)  { left:40%;  animation-duration:7s;  animation-delay:0.8s; width:5px; height:8px; }
+    .petal:nth-child(4)  { left:55%;  animation-duration:9s;  animation-delay:2s; }
+    .petal:nth-child(5)  { left:70%;  animation-duration:6.5s;animation-delay:0.3s; width:7px; height:11px; }
+    .petal:nth-child(6)  { left:82%;  animation-duration:8.5s;animation-delay:1s; }
+    .petal:nth-child(7)  { left:90%;  animation-duration:7.5s;animation-delay:2.5s; width:5px; height:9px; }
+    .petal:nth-child(8)  { left:5%;   animation-duration:10s; animation-delay:3s; }
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg);   opacity: .7; }
+      100% { transform: translateY(300px) rotate(360deg); opacity: 0;  }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      color: rgba(255,255,255,.6);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .hero-welcome {
+      font-size: 13px;
+      color: rgba(255,255,255,.5);
+      letter-spacing: .2em;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-size: clamp(26px, 5vw, 36px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .hero-title-accent {
+      color: #FF6B8A;
+      font-style: normal;
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .hero-chips {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.85);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ══════════════════════════════════════
+       TAB NAV
+    ══════════════════════════════════════ */
+    .tab-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FAF9F7;
+      border-bottom: 1.5px solid #E2E0DB;
+      transition: box-shadow .2s;
+    }
+    .tab-nav.scrolled { box-shadow: 0 2px 12px rgba(139,0,41,.10); }
+
+    .tab-list {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 0;
+      padding: 0 4px;
+      flex-wrap: wrap;
+    }
+    .tab-list::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 12px 16px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #888;
+      white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .2s, border-color .2s;
+      flex-shrink: 0;
+    }
+    .tab-btn:hover { color: #5A5550; }
+    .tab-btn.active {
+      color: var(--lg-red);
+      border-bottom-color: var(--lg-red);
+      font-weight: 700;
+    }
+    .tab-icon { font-size: 18px; }
+    .tab-label { font-size: 12px; }
+
+    /* ══════════════════════════════════════
+       TAB PANELS
+    ══════════════════════════════════════ */
+    .tab-panel { display: none; padding: 32px 32px 56px; max-width: 1080px; margin: 0 auto; }
+    .tab-panel.active { display: block; }
+
+    /* ══════════════════════════════════════
+       SECTION HEADER
+    ══════════════════════════════════════ */
+    .section-header { text-align: center; margin-bottom: 24px; }
+    .section-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      color: var(--lg-red);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--lg-navy);
+      margin-bottom: 6px;
+    }
+    .section-desc { font-size: 15px; color: var(--lg-sub); }
+
+    /* ══════════════════════════════════════
+       CARD (공통)
+    ══════════════════════════════════════ */
+    .card {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+      border: 1px solid #E8E5E0;
+    }
+    .card-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .card-icon { font-size: 20px; }
+    .card-label { font-size: 16px; font-weight: 700; color: var(--lg-text); letter-spacing: -.01em; }
+
+    /* ── info rows ── */
+    .info-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #F0F1F7;
+      font-size: 15px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-key {
+      flex-shrink: 0;
+      width: 56px;
+      font-weight: 600;
+      color: var(--lg-sub);
+      font-size: 14px;
+    }
+    .info-row-val { color: var(--lg-text); line-height: 1.6; }
+    .highlight {
+      background: linear-gradient(120deg, rgba(192,0,60,.10) 0%, rgba(192,0,60,.06) 100%);
+      color: var(--lg-red);
+      font-weight: 600;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* ── goal cards ── */
+    .goal-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .goal-card {
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      border: 1.5px solid #E8E5E0;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      transition: box-shadow .2s;
+    }
+    .goal-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    }
+    .goal-card-icon {
+      display: none;
+    }
+    .goal-card-title {
+      background: #2C2C2C;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.5;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      width: 200px;
+      border-left: 5px solid var(--lg-red);
+    }
+    .goal-card-desc {
+      background: #FAFAF8;
+      color: #3A3A3A;
+      font-size: 14px;
+      line-height: 1.75;
+      padding: 20px 24px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      border-left: 1px solid #E8E5E0;
+    }
+
+    /* ── day cards (교육 개요용) ── */
+    .day-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 480px) { .day-cards { grid-template-columns: 1fr; } }
+    .day-card { border-radius: 10px; overflow: hidden; }
+    .day-card-header {
+      background: #3A3330;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 14px;
+    }
+    .day-card-body {
+      background: #F5F5F3;
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--lg-text);
+      border: 1px solid var(--lg-border);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+    }
+
+    /* ── overview purpose ── */
+    .overview-purpose {
+      background: #FAFAF8;
+      border-left: 5px solid var(--lg-red);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .overview-purpose-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--lg-red);
+      margin-bottom: 6px;
+    }
+    .overview-purpose-text { font-size: 16px; color: var(--lg-text); line-height: 1.7; }
+
+    /* ══════════════════════════════════════
+       LOCATION TAB
+    ══════════════════════════════════════ */
+    .location-address {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #FAFAF8;
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--lg-border);
+    }
+    .location-address-icon { font-size: 26px; flex-shrink: 0; }
+    .location-address-label { font-size: 11px; font-weight: 700; color: var(--lg-red); letter-spacing:.08em; margin-bottom: 4px; }
+    .location-address-text { font-size: 16px; font-weight: 600; color: var(--lg-navy); line-height: 1.6; }
+
+    .navi-rows { display: flex; flex-direction: column; gap: 10px; }
+    .navi-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: #FAFAF8;
+      border-radius: 12px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--lg-border);
+    }
+    .navi-row-icon { font-size: 22px; flex-shrink: 0; }
+    .navi-row-label { font-size: 13px; color: var(--lg-sub); margin-bottom: 4px; }
+    .navi-row-value { font-size: 15px; font-weight: 600; color: var(--lg-text); }
+    .navi-keyword {
+      display: inline-block;
+      background: var(--lg-red);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+
+    /* ══════════════════════════════════════
+       TIMETABLE TAB (LG 톤 HTML)
+    ══════════════════════════════════════ */
+    .timetable-lg { padding: 0 0 40px; }
+
+    .tl-header {
+      background: #2C2420;
+      border-radius: 14px;
+      padding: 24px 28px 20px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tl-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .tl-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--lg-red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .tl-header-title {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .tl-header-title em { color: #7EB3FF; font-style: normal; }
+    .tl-header-sub { color: rgba(255,255,255,.6); font-size: 13px; }
+
+    .tl-intro {
+      background: #F5F5F3;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--lg-red);
+    }
+    .tl-intro p { font-size: 13.5px; font-weight: 600; color: var(--lg-navy); line-height: 1.6; margin: 0; }
+
+    .tl-section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--lg-navy);
+      margin: 22px 0 12px;
+    }
+    .tl-section-label::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 16px;
+      background: var(--lg-red);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .tl-goal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .tl-goal-card {
+      background: #3A3330;
+      border-radius: 12px;
+      padding: 18px 16px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .tl-goal-card::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; right: -20px;
+      width: 80px; height: 80px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+    }
+    .tl-goal-icon { font-size: 22px; margin-bottom: 10px; }
+    .tl-goal-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+    .tl-goal-desc { font-size: 12.5px; color: rgba(255,255,255,.65); line-height: 1.6; }
+
+    /* 세션 카드 */
+    .tl-sessions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 560px) { .tl-sessions { grid-template-columns: 1fr; } }
+
+    .tl-session {
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: default;
+      transition: box-shadow .25s;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    
+    
+
+    .tl-session-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      color: #fff;
+      position: relative;
+      user-select: none;
+    }
+    .tl-session--am .tl-session-header { background: #3A3330; }
+    .tl-session--pm .tl-session-header { background: #3A3330; }
+
+    .tl-session-header-left { display: flex; flex-direction: column; gap: 3px; }
+    .tl-session-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; opacity: .75; }
+    .tl-session-time { font-size: 16px; font-weight: 700; }
+    .tl-session-icon { font-size: 22px; opacity: .85; }
+    .tl-session-expand-hint {
+      position: absolute;
+      bottom: 7px; right: 14px;
+      font-size: 10px; opacity: .5; letter-spacing: .04em;
+    }
+
+    .tl-session-chevron {
+      font-size: 18px;
+      transition: transform .3s;
+      margin-left: 4px;
+      opacity: .7;
+      line-height: 1;
+    }
+    .tl-session.open .tl-session-chevron { transform: rotate(180deg); }
+
+    .tl-session-body {
+      background: #fff;
+      border: 1.5px solid var(--lg-border);
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      max-height: none;
+      overflow: visible;
+      opacity: 1;
+      padding: 20px 20px;
+    }
+
+    .tl-session-title { font-size: 16px; font-weight: 700; color: var(--lg-red); margin-bottom: 4px; }
+    .tl-session--pm .tl-session-title { color: var(--lg-red); }
+    .tl-session-subtitle { font-size: 13px; color: var(--lg-sub); margin-bottom: 16px; }
+
+    .tl-items { display: flex; flex-direction: column; gap: 14px; }
+    .tl-item { display: flex; align-items: flex-start; gap: 10px; }
+    .tl-item-check {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .tl-session--am .tl-item-check { background: var(--lg-red); }
+    .tl-session--pm .tl-item-check { background: var(--lg-red); }
+    .tl-item-check svg { width: 11px; height: 11px; }
+    .tl-item-text { display: flex; flex-direction: column; gap: 2px; }
+    .tl-item-main { font-size: 14px; font-weight: 700; color: var(--lg-red); }
+    .tl-item-sub { font-size: 13px; color: #6B6560; line-height: 1.6; margin-top: 2px; }
+
+    /* ══════════════════════════════════════
+       DINING TAB
+    ══════════════════════════════════════ */
+    .dining-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #FFF8F0;
+      border: 1.5px solid #FFD4A0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .dining-notice-icon { font-size: 20px; flex-shrink: 0; }
+
+    .img-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      position: relative;
+      margin-bottom: 16px;
+      border: 1px solid var(--lg-border);
+    }
+    .img-card img { width: 100%; transition: transform .3s; }
+    .img-card:hover img { transform: scale(1.02); }
+    .img-click-hint {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .route-cards { display: flex; flex-direction: column; gap: 10px; }
+    .route-card {
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1.5px solid;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .route-card.outdoor { background: #FFF5F5; border-color: #FFB3B3; }
+    .route-card.indoor  { background: #FFF0F3; border-color: #F0B3C0; }
+    .route-type { font-weight: 700; margin-bottom: 6px; font-size: 14px; }
+    .route-line { color: var(--lg-text); }
+    .route-arrow { color: var(--lg-sub); margin: 0 4px; font-weight: 700; }
+
+    /* ══════════════════════════════════════
+       SAFETY TAB
+    ══════════════════════════════════════ */
+    .safe-banner {
+      text-align: center;
+      background: #3A3330;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .safe-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .safe-card {
+      background: #FAFAF8;
+      border-radius: 12px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--lg-border);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+    }
+    .safe-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-shrink: 0;
+      width: 64px;
+      text-align: center;
+    }
+    .safe-badge-icon { font-size: 28px; }
+    .safe-badge-text { font-size: 11px; font-weight: 700; color: var(--lg-red); line-height: 1.3; text-align: center; }
+    .safe-divider { width: 1px; height: 48px; background: var(--lg-border); flex-shrink: 0; }
+    .safe-title { font-size: 16px; font-weight: 700; color: var(--lg-text); margin-bottom: 4px; }
+    .safe-sub { font-size: 11px; color: var(--lg-sub); }
+    .safe-desc { font-size: 13.5px; color: var(--lg-sub); line-height: 1.6; margin-top: 4px; }
+
+    /* ══════════════════════════════════════
+       FAQ TAB
+    ══════════════════════════════════════ */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    .faq-item {
+      background: #FAFAF8;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--lg-border);
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .faq-item.open { border-color: var(--lg-red); }
+
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 16px;
+      text-align: left;
+    }
+    .faq-q-icon {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      background: #3A3330;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .faq-q-text { flex: 1; font-size: 15px; font-weight: 600; color: var(--lg-text); line-height: 1.5; }
+    .faq-chevron {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: var(--lg-sub);
+      transition: transform .3s;
+      line-height: 1;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(90deg); }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .3s;
+      padding: 0 16px;
+    }
+    .faq-item.open .faq-a {
+      max-height: 400px;
+      padding: 0 16px 16px;
+    }
+    .faq-a p { font-size: 14.5px; color: #4A4540; line-height: 1.85; }
+
+    /* ══════════════════════════════════════
+       CONTACT TAB
+    ══════════════════════════════════════ */
+    .contact-group { margin-bottom: 24px; }
+    .contact-group-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lg-sub);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .contact-cards { display: flex; flex-direction: column; gap: 10px; }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #FAFAF8;
+      border-radius: 12px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--lg-border);
+    }
+    .contact-card--urgent { border-color: #FFB3B3; background: #FFF5F5; }
+    .contact-card--staff  { border-color: var(--lg-border); }
+    .contact-card-icon { font-size: 26px; flex-shrink: 0; }
+    .contact-card-label { font-size: 13px; color: var(--lg-sub); margin-bottom: 2px; }
+    .contact-card-name  { font-size: 14px; font-weight: 600; color: var(--lg-text); margin-bottom: 2px; }
+    .contact-card-number{ font-size: 18px; font-weight: 700; color: var(--lg-navy); }
+    .contact-card--urgent .contact-card-number { color: var(--lg-red); }
+
+    /* ══════════════════════════════════════
+       차량 5부제 카드 & 드로어
+    ══════════════════════════════════════ */
+    .traffic-card {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--lg-border);
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .traffic-card:hover {
+      box-shadow: 0 6px 24px rgba(139,0,41,.15);
+      transform: translateY(-2px);
+    }
+    .traffic-card-header {
+      background: linear-gradient(120deg, #3A3330, #4A4340);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .traffic-card-hl { display: flex; align-items: center; gap: 10px; }
+    .traffic-card-icon { font-size: 22px; }
+    .traffic-card-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+    .traffic-card-title { color: #fff; font-size: 16px; font-weight: 700; }
+    .traffic-card-sub { color: rgba(255,255,255,.7); font-size: 13px; }
+    .traffic-card-arrow { color: rgba(255,255,255,.7); font-size: 20px; }
+    .traffic-card-body { padding: 16px 18px 12px; }
+    .traffic-summary-date {
+      font-size: 14px; font-weight: 700; color: var(--lg-red);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .traffic-summary-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 14px; color: var(--lg-text); line-height: 1.6;
+      padding: 6px 0; border-bottom: 1px solid #F5E8EB;
+    }
+    .traffic-summary-row:last-child { border-bottom: none; }
+    .traffic-dot {
+      width: 6px; height: 6px; background: var(--lg-red);
+      border-radius: 50%; flex-shrink: 0; margin-top: 7px;
+    }
+    .traffic-detail-hint {
+      text-align: center; font-size: 11px; color: var(--lg-sub);
+      padding: 10px 0 4px; display: flex; align-items: center;
+      justify-content: center; gap: 4px; border-top: 1px solid #F5E8EB; margin-top: 8px;
+    }
+
+    /* 드로어 */
+    .drawer-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.5); z-index: 8000;
+      align-items: flex-end; justify-content: center;
+    }
+    .drawer-overlay.open { display: flex; }
+    .drawer {
+      background: #fff; width: 100%; max-width: 1080px;
+      max-height: 88vh; border-radius: 20px 20px 0 0;
+      overflow: hidden; display: flex; flex-direction: column;
+      animation: slideUp .3s cubic-bezier(.4,0,.2,1);
+      position: relative;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    .drawer-handle {
+      width: 40px; height: 4px; background: rgba(255,255,255,.35);
+      border-radius: 2px; position: absolute; top: 10px;
+      left: 50%; transform: translateX(-50%);
+    }
+    .drawer-header {
+      background: linear-gradient(120deg, #2C2420, #3A3330);
+      padding: 22px 20px 16px;
+      display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0;
+    }
+    .drawer-title { color: #fff; font-size: 17px; font-weight: 700; }
+    .drawer-subtitle { color: rgba(255,255,255,.7); font-size: 11px; margin-top: 3px; }
+    .drawer-close {
+      color: rgba(255,255,255,.8); font-size: 26px; line-height: 1;
+      cursor: pointer; padding: 2px; transition: color .2s; background: none; border: none;
+    }
+    .drawer-close:hover { color: #fff; }
+    .drawer-body { overflow-y: auto; padding: 20px 18px 40px; flex: 1; }
+
+    .d-intro {
+      background: #F0EDEA; border-left: 4px solid var(--lg-red);
+      border-radius: 0 8px 8px 0; padding: 16px 18px;
+      margin-bottom: 20px; font-size: 14.5px; line-height: 1.8; color: var(--lg-text);
+    }
+    .d-intro strong { color: var(--lg-red); }
+    .d-section { margin-bottom: 22px; }
+    .d-section-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; color: var(--lg-text); margin-bottom: 10px;
+    }
+    .d-section-title::before {
+      content: ''; display: block; width: 3px; height: 14px;
+      background: var(--lg-red); border-radius: 2px; flex-shrink: 0;
+    }
+    .d-table {
+      width: 100%; border-collapse: collapse; font-size: 12px;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 1px 6px rgba(139,0,41,.08);
+    }
+    .d-table th {
+      background: #3A3330; color: #fff; font-weight: 700;
+      padding: 11px 6px; text-align: center;
+    }
+    .d-table td {
+      background: #fff; padding: 11px 6px; text-align: center;
+      border-bottom: 1px solid #F5E8EB; color: var(--lg-text); font-size: 13px;
+    }
+    .d-table tr:last-child td { border-bottom: none; }
+    .d-table td.weekend { color: #bbb; }
+    .d-apply-box {
+      background: #F0EDEA; border: 1.5px solid #F0C0CC;
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 10px;
+    }
+    .d-apply-label {
+      font-size: 10px; font-weight: 700; color: var(--lg-red);
+      letter-spacing: .08em; margin-bottom: 6px;
+    }
+    .d-apply-title { font-size: 14px; font-weight: 700; color: var(--lg-text); margin-bottom: 8px; }
+    .d-apply-item {
+      display: flex; align-items: flex-start; gap: 6px;
+      font-size: 14px; color: var(--lg-text); line-height: 1.6; margin-bottom: 4px;
+    }
+    .d-apply-item::before { content: '–'; color: var(--lg-red); font-weight: 700; flex-shrink: 0; }
+    .d-except-box {
+      background: #F8F8F8; border: 1.5px solid #E0E0E0;
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .d-except-label {
+      font-size: 10px; font-weight: 700; color: #888;
+      letter-spacing: .06em; margin-bottom: 6px;
+    }
+    .d-except-item {
+      display: flex; align-items: flex-start; gap: 6px;
+      font-size: 13.5px; color: #555; line-height: 1.6; margin-bottom: 4px;
+    }
+    .d-except-item::before { content: '·'; font-weight: 700; color: #aaa; flex-shrink: 0; }
+
+    /* ══════════════════════════════════════
+       식당 이동 도식 지도
+    ══════════════════════════════════════ */
+    .map-wrap { margin-top: 4px; }
+
+    .map-legend {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid var(--lg-border);
+      width: fit-content;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--lg-text);
+      font-weight: 500;
+    }
+    .legend-line {
+      width: 32px; height: 3px;
+      border-radius: 2px;
+      position: relative;
+    }
+    .legend-line::after {
+      content: '';
+      position: absolute;
+      right: -1px; top: -3px;
+      width: 0; height: 0;
+      border-left: 7px solid;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+    .legend-red { background: #CC0033; }
+    .legend-red::after { border-left-color: #CC0033; }
+    .legend-blue { background: #1B6FC8; }
+    .legend-blue::after { border-left-color: #1B6FC8; }
+
+    .map-svg-wrap {
+      background: #EEF0EC;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid var(--lg-border);
+      margin-bottom: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .map-svg { width: 100%; height: auto; display: block; }
+
+    .route-detail-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 520px) { .route-detail-cards { grid-template-columns: 1fr; } }
+
+    .route-detail-card {
+      background: #FAFAF8;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1.5px solid var(--lg-border);
+    }
+    .route-outdoor { border-left: 4px solid #CC0033; }
+    .route-indoor  { border-left: 4px solid #1B6FC8; }
+
+    .route-detail-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--lg-text);
+      margin-bottom: 14px;
+    }
+    .route-color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    .route-detail-steps { display: flex; flex-direction: column; gap: 4px; }
+    .route-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--lg-text);
+      line-height: 1.5;
+    }
+    .step-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%; flex-shrink: 0; border: 2px solid;
+    }
+    .step-dot.start    { background: #8B0029; border-color: #8B0029; }
+    .step-dot.mid      { background: #fff; border-color: #aaa; }
+    .step-dot.end-red  { background: #CC0033; border-color: #CC0033; }
+    .step-dot.end-blue { background: #1B6FC8; border-color: #1B6FC8; }
+    .route-step-arrow  { font-size: 11px; color: #bbb; padding-left: 20px; line-height: 1; }
+
+
+    /* 이미지 플레이스홀더 */
+    .img-placeholder {
+      border: 2px dashed #C8C4BE;
+      border-radius: 12px;
+      background: #F5F5F3;
+      margin-bottom: 14px;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .img-placeholder-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .img-placeholder-icon { font-size: 36px; opacity: .4; }
+    .img-placeholder-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #8B8580;
+    }
+    .img-placeholder-hint {
+      font-size: 12px;
+      color: #AAA49E;
+    }
+    .img-placeholder-code {
+      display: inline-block;
+      background: #EDEAE5;
+      color: #6B6560;
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      text-align: center;
+      padding: 28px 16px 40px;
+      background: #2C2420;
+      color: rgba(255,255,255,.5);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .footer-logo {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 4px;
+      letter-spacing: .08em;
+    }
+
+    /* ══════════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-size: 32px;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      opacity: .7;
+      transition: opacity .2s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.4);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <header class="hero">
+    <div class="sakura-deco" aria-hidden="true">
+      <div class="sakura-bloom bloom-1">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <ellipse cx="0" cy="-44" rx="18" ry="42" fill="#FFFCF8"/>
+            <ellipse cx="0" cy="-44" rx="18" ry="42" fill="#FFF8F0" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-44" rx="18" ry="42" fill="#FFFFFF" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-44" rx="18" ry="42" fill="#FFF8F0" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-44" rx="18" ry="42" fill="#FFFCF8" transform="rotate(288)"/>
+            <circle cx="0" cy="0" r="16" fill="#FFF5E0"/>
+            <circle cx="0" cy="-18" r="4" fill="#E8D4A0"/>
+            <circle cx="17.1" cy="-5.6" r="4" fill="#E8D4A0"/>
+            <circle cx="10.6" cy="14.5" r="4" fill="#E8D4A0"/>
+            <circle cx="-10.6" cy="14.5" r="4" fill="#E8D4A0"/>
+            <circle cx="-17.1" cy="-5.6" r="4" fill="#E8D4A0"/>
+          </g>
+        </svg>
+      </div>
+      <div class="sakura-bloom bloom-2">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <ellipse cx="0" cy="-40" rx="16" ry="38" fill="#FFFFFF"/>
+            <ellipse cx="0" cy="-40" rx="16" ry="38" fill="#FFF8F0" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-40" rx="16" ry="38" fill="#FFFCF8" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-40" rx="16" ry="38" fill="#FFF8F0" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-40" rx="16" ry="38" fill="#FFFFFF" transform="rotate(288)"/>
+            <circle cx="0" cy="0" r="13" fill="#FFF5E0"/>
+            <circle cx="0" cy="-16" r="3.5" fill="#D4C090"/>
+            <circle cx="15.2" cy="-5" r="3.5" fill="#D4C090"/>
+            <circle cx="9.4" cy="12.9" r="3.5" fill="#D4C090"/>
+            <circle cx="-9.4" cy="12.9" r="3.5" fill="#D4C090"/>
+            <circle cx="-15.2" cy="-5" r="3.5" fill="#D4C090"/>
+          </g>
+        </svg>
+      </div>
+      <div class="sakura-bloom bloom-3">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <ellipse cx="0" cy="-32" rx="13" ry="30" fill="#FFFCF8"/>
+            <ellipse cx="0" cy="-32" rx="13" ry="30" fill="#FFF5E8" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-32" rx="13" ry="30" fill="#FFFFFF" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-32" rx="13" ry="30" fill="#FFF5E8" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-32" rx="13" ry="30" fill="#FFFCF8" transform="rotate(288)"/>
+            <circle cx="0" cy="0" r="10" fill="#FFF5E0"/>
+          </g>
+        </svg>
+      </div>
+      <div class="sakura-bloom bloom-4">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <ellipse cx="0" cy="-26" rx="11" ry="24" fill="#FFF8F0"/>
+            <ellipse cx="0" cy="-26" rx="11" ry="24" fill="#FFFFFF" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-26" rx="11" ry="24" fill="#FFF8F0" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-26" rx="11" ry="24" fill="#FFFFFF" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-26" rx="11" ry="24" fill="#FFF8F0" transform="rotate(288)"/>
+            <circle cx="0" cy="0" r="8" fill="#FFF5E0"/>
+          </g>
+        </svg>
+      </div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-badge">LG Electronics · Learning Center</div>
+      <div class="hero-welcome">◈ 환영합니다 ◈</div>
+      <h1 class="hero-title"><span>임원 AX 역량 강화 <em class="hero-title-accent">심화</em></span></h1>
+      <p class="hero-sub">AX 실행 가속을 위한 AI 기반 핵심 역량 확보 프로그램</p>
+      <div class="hero-chips">
+        <span class="hero-chip">5/8일(금) · 러닝센터</span>
+        <span class="hero-chip">선택과정</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ TAB NAV ═══ -->
+  <nav class="tab-nav" id="tabNav">
+    <ul class="tab-list" role="tablist">
+      <li><button class="tab-btn active" role="tab" data-tab="tab1">
+        <span class="tab-icon">📋</span><span class="tab-label">교육 개요</span>
+      </button></li>
+      <li><button class="tab-btn" role="tab" data-tab="tab2">
+        <span class="tab-icon">📍</span><span class="tab-label">오시는 방법</span>
+      </button></li>
+
+      <li><button class="tab-btn" role="tab" data-tab="tab5">
+        <span class="tab-icon">🍽️</span><span class="tab-label">식당 이동</span>
+      </button></li>
+      <li><button class="tab-btn" role="tab" data-tab="tab6">
+        <span class="tab-icon">⚠️</span><span class="tab-label">안전수칙</span>
+      </button></li>
+      <li><button class="tab-btn" role="tab" data-tab="tab8">
+        <span class="tab-icon">💬</span><span class="tab-label">FAQ</span>
+      </button></li>
+      <li><button class="tab-btn" role="tab" data-tab="tab10">
+        <span class="tab-icon">📞</span><span class="tab-label">비상연락망</span>
+      </button></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ MAIN ═══ -->
+  <main>
+
+    <!-- ── Tab 1: 교육 개요 ── -->
+    <section id="tab1" class="tab-panel active" role="tabpanel">
+      <div class="section-header reveal">
+        <div class="section-tag">OVERVIEW</div>
+        <h2 class="section-title">교육 개요</h2>
+        <p class="section-desc">26년 2~3월 전 임원 AX 역량강화 과정의 후속 심화과정</p>
+      </div>
+
+      <div class="overview-purpose reveal">
+        <div class="overview-purpose-label">과정 소개</div>
+        <p class="overview-purpose-text">
+          Copilot(업무 자동화)과 Claude(전략 리서치)를 통합하여
+          <strong>실전활용도를 극대화하는 1-Day 몰입 과정</strong>
+        </p>
+      </div>
+
+      <div class="card reveal" style="margin-bottom:16px;">
+        <div class="card-icon-row">
+          <div class="card-icon">📌</div>
+          <span class="card-label">개요</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-key">일&nbsp;&nbsp;&nbsp;&nbsp;정</span>
+          <span class="info-row-val"><strong>5/8(금)</strong> <span class="highlight">1일 8시간 과정</span></span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-key">장&nbsp;&nbsp;&nbsp;&nbsp;소</span>
+          <span class="info-row-val"><span class="highlight">러닝센터</span> (경기도 평택시 진위면 엘지로 222)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-key">대&nbsp;&nbsp;&nbsp;&nbsp;상</span>
+          <span class="info-row-val">LG전자 임원 <span class="highlight">선택 과정</span></span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-key">준비물</span>
+          <span class="info-row-val"><span class="highlight">개인 노트북 필수 지참</span></span>
+        </div>
+      </div>
+
+      <div class="card reveal" style="margin-bottom:16px;">
+        <div class="card-icon-row">
+          <div class="card-icon">🎯</div>
+          <span class="card-label">프로그램 핵심 목표</span>
+        </div>
+        <div class="goal-cards">
+          <div class="goal-card">
+            
+            <div class="goal-card-title">내 데이터기반 실무 체감</div>
+            <div class="goal-card-desc">Outlook, Teams 등 실제 M365 개인 업무 데이터와 연계를 통한 즉각적인 실생활 업무 경험</div>
+          </div>
+          <div class="goal-card">
+            
+            <div class="goal-card-title">전략적 의사결정 지원</div>
+            <div class="goal-card-desc">Claude를 활용한 심층 시장 분석, 경영자 리포트 자동화 및 실행 계획 도출 워크플로우 내재화</div>
+          </div>
+          <div class="goal-card">
+            
+            <div class="goal-card-title">안전한 몰입형 실습</div>
+            <div class="goal-card-desc">Flipped Learning 방식 도입 및 사내 보안 가이드 준수</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon-row">
+          <div class="card-icon">📖</div>
+          <span class="card-label">세부 커리큘럼 · Hands-on 실습 100%</span>
+        </div>
+        <div class="tl-sessions" style="margin-top:4px;">
+
+          <!-- 오전 세션 -->
+          <div class="tl-session tl-session--am">
+            <div class="tl-session-header">
+              <div class="tl-session-header-left">
+                <span class="tl-session-label">오전 세션</span>
+                <span class="tl-session-time">08:00 – 12:00 (4H)</span>
+              </div>
+            </div>
+            <div class="tl-session-body">
+              <div class="tl-session-title">M365 Copilot 실무 내재화</div>
+              <div class="tl-session-subtitle">단순 채팅이 아닌 '나의 업무 생태계' 연동 실습</div>
+              <div class="tl-items">
+                <div class="tl-item">
+                  <div class="tl-item-check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="tl-item-text">
+                    <span class="tl-item-main">Daily Briefing &amp; 메일 요약 (Outlook)</span>
+                    <span class="tl-item-sub">밤사이 도착한 메일 분석 및 우선순위 업무 추천</span>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-item-check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="tl-item-text">
+                    <span class="tl-item-main">회의 후속조치 &amp; 아젠다 관리 (Teams)</span>
+                    <span class="tl-item-sub">회의록 기반 Action Item 도출 및 실시간 협업</span>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-item-check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="tl-item-text">
+                    <span class="tl-item-main">보고서 리뷰 &amp; 트렌드 리포트 작성</span>
+                    <span class="tl-item-sub">의사결정 지원을 위한 도구</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 오후 세션 -->
+          <div class="tl-session tl-session--pm">
+            <div class="tl-session-header">
+              <div class="tl-session-header-left">
+                <span class="tl-session-label">오후 세션</span>
+                <span class="tl-session-time">13:00 – 17:00 (4H)</span>
+              </div>
+            </div>
+            <div class="tl-session-body">
+              <div class="tl-session-title">Claude 전략 리서치 심화</div>
+              <div class="tl-session-subtitle">임원 의사결정을 위한 고도화된 인사이트 도출</div>
+              <div class="tl-items">
+                <div class="tl-item">
+                  <div class="tl-item-check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="tl-item-text">
+                    <span class="tl-item-main">산업 동향 및 경쟁사 심층 분석</span>
+                    <span class="tl-item-sub">다중 문맥을 활용한 시장 트렌드 리서치 실습</span>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-item-check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="tl-item-text">
+                    <span class="tl-item-main">전략 리포트 자동화 파이프라인</span>
+                    <span class="tl-item-sub">정형화된 프롬프트를 통한 고품질 리포트 즉시 생성</span>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-item-check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="tl-item-text">
+                    <span class="tl-item-main">실행 계획 도출 및 검증 시나리오</span>
+                    <span class="tl-item-sub">과거 데이터(보고자료, 이메일, 회의록 등) 기반 AI 에이전트 활용 검토</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Tab 2: 오시는 방법 ── -->
+    <section id="tab2" class="tab-panel" role="tabpanel">
+      <div class="section-header reveal">
+        <div class="section-tag">LOCATION</div>
+        <h2 class="section-title">오시는 방법</h2>
+        <p class="section-desc">LG전자 평택 디지털파크 러닝센터</p>
+      </div>
+      <div class="location-address reveal" style="margin-bottom:20px;">
+        <div class="location-address-icon">🏢</div>
+        <div>
+          <div class="location-address-label">주소</div>
+          <div class="location-address-text">경기도 평택시 진위면 엘지로 222 &nbsp;LG디지털파크</div>
+        </div>
+      </div>
+      <div class="navi-rows">
+        <div class="navi-row reveal">
+          <div class="navi-row-icon">🚗</div>
+          <div>
+            <div class="navi-row-label">자가용 네비게이션 검색어</div>
+            <div class="navi-row-value"><span class="navi-keyword">LG디지털파크 서문</span></div>
+          </div>
+        </div>
+        <div class="navi-row reveal">
+          <div class="navi-row-icon">📌</div>
+          <div>
+            <div class="navi-row-label">진입 방법</div>
+            <div class="navi-row-value">서문으로 진입 후 주차요원 안내에 따라 이동</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 차량 5부제 카드 -->
+      <div class="traffic-card reveal" onclick="openDrawer('trafficDrawer')">
+        <div class="traffic-card-header">
+          <div class="traffic-card-hl">
+            <span class="traffic-card-icon">🚗</span>
+            <div class="traffic-card-title-wrap">
+              <span class="traffic-card-title">전사 차량 5부제 시행 안내</span>
+              <span class="traffic-card-sub">'26년 4월 6일(월)부터 시행</span>
+            </div>
+          </div>
+          <span class="traffic-card-arrow">›</span>
+        </div>
+        <div class="traffic-card-body">
+          <div class="traffic-summary-date">📅 시행일: 2026년 4월 6일(월)~</div>
+          <div class="traffic-summary-row">
+            <div class="traffic-dot"></div>
+            <span>임원 법인차량은 <strong>전 사업장 5부제 적용</strong></span>
+          </div>
+          <div class="traffic-summary-row">
+            <div class="traffic-dot"></div>
+            <span>5부제 당일 <strong>출·퇴근 등 업무목적 개인차량 운행 금지</strong> (대중교통 이용)</span>
+          </div>
+          <div class="traffic-summary-row">
+            <div class="traffic-dot"></div>
+            <span>대체차량 지원 등 <strong>예외 적용 없음</strong></span>
+          </div>
+          <div class="traffic-detail-hint">📋 눌러서 전체 내용 보기</div>
+        </div>
+      </div>
+
+      <!-- 차량 5부제 드로어 -->
+      <div class="drawer-overlay" id="trafficDrawer" onclick="closeDrawerOnBg(event, 'trafficDrawer')">
+        <div class="drawer">
+          <div class="drawer-handle"></div>
+          <div class="drawer-header">
+            <div>
+              <div class="drawer-title">전사 차량 5부제 강화 시행</div>
+              <div class="drawer-subtitle">LG Electronics Internal Use Only</div>
+            </div>
+            <button class="drawer-close" onclick="closeDrawer('trafficDrawer')">&times;</button>
+          </div>
+          <div class="drawer-body">
+
+            <div class="d-intro">
+              '원유 자원 안보 위기 경보'가 2단계(주의)에서 3단계(경계)로 격상됨에 따라,
+              현재 운영 중인 차량 10부제를 <strong>5부제로 강화</strong>하여 시행합니다.<br><br>
+              다소 불편하시더라도 철저한 준수를 부탁드립니다.
+            </div>
+
+            <div class="d-section">
+              <div class="d-section-title">시행 일자</div>
+              <div style="font-size:13.5px; font-weight:700; color:var(--lg-red); padding:4px 0;">'26년 4월 6일(월)~</div>
+            </div>
+
+            <div class="d-section">
+              <div class="d-section-title">시행 방법 — 차량 번호 끝자리 기준 요일제</div>
+              <table class="d-table">
+                <thead>
+                  <tr>
+                    <th>구분</th>
+                    <th>월요일</th>
+                    <th>화요일</th>
+                    <th>수요일</th>
+                    <th>목요일</th>
+                    <th>금요일</th>
+                    <th>주말/<br>공휴일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight:600;">차량번호</td>
+                    <td>끝자리<br>1/6</td>
+                    <td>끝자리<br>2/7</td>
+                    <td>끝자리<br>3/8</td>
+                    <td>끝자리<br>4/9</td>
+                    <td>끝자리<br>5/0</td>
+                    <td class="weekend">제외</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-section">
+              <div class="d-section-title">임원 / 비임원담당 적용 내용</div>
+              <div class="d-apply-box">
+                <div class="d-apply-label">적용 범위</div>
+                <div class="d-apply-title">법인 차량 (전 사업장 공통) — <span style="color:var(--lg-red);">5부제 적용</span></div>
+                <div class="d-apply-item">5부제 시행에 따른 대체차량 지원 등 예외 적용 없음</div>
+                <div class="d-apply-item">5부제 당일 출/퇴근 등 업무목적 개인 차량 운행 금지 (대중 교통 이용)</div>
+              </div>
+            </div>
+
+            <div class="d-section">
+              <div class="d-section-title">제외 대상</div>
+              <div class="d-except-box">
+                <div class="d-except-label">아래 차량은 5부제 적용 제외</div>
+                <div class="d-except-item">전기차/수소차, 납품 차량, 고객 차량, 소방차, 구급차 등 안전보건관련 차량</div>
+                <div class="d-except-item">대고객 서비스/지원 차량 (랩핑된 업무용 차량)</div>
+                <div class="d-except-item">장애인, 임산부, 미취학 아동이 탑승한 차량</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ── Tab 5    <!-- ── Tab 5: 식당 이동 ── -->
+    <section id="tab5" class="tab-panel" role="tabpanel">
+      <div class="section-header reveal">
+        <div class="section-tag">DINING</div>
+        <h2 class="section-title">식당 이동</h2>
+        <p class="section-desc">교육장에서 식당(House 1958)까지 이동 안내</p>
+      </div>
+      <div class="dining-notice reveal">
+        <span class="dining-notice-icon">🪪</span>
+        <span>식당은 나눔관 옆 <strong>HOUSE 1958</strong>입니다. <span class="highlight">명찰을 패용</span>하시고 이동해주세요.</span>
+      </div>
+      <div class="map-wrap reveal">
+
+        <!-- 이미지 플레이스홀더 -->
+        <div class="img-placeholder">
+          <div class="img-placeholder-inner">
+            <div class="img-placeholder-icon">🗺️</div>
+            <div class="img-placeholder-text">여기에 이미지 삽입</div>
+            <div class="img-placeholder-hint">img 태그의 src 속성에 GitHub 이미지 URL을 입력하세요</div>
+            <code class="img-placeholder-code">&lt;img src="YOUR_GITHUB_IMAGE_URL" alt="식당 이동 안내도" /&gt;</code>
+          </div>
+        </div>
+
+        <!-- 경로 안내 카드 -->
+        <div class="route-detail-cards">
+          <div class="route-detail-card route-outdoor">
+            <div class="route-detail-header">
+              <div class="route-color-dot" style="background:#CC0033;"></div>
+              <span>실외 이동 경로</span>
+            </div>
+            <div class="route-detail-steps">
+              <div class="route-step">
+                <div class="step-dot start"></div>
+                <div class="step-text"><strong>채움관 2층</strong> 201호 · Office 사이 출입문</div>
+              </div>
+              <div class="route-step-arrow">↓ 외부로 이동</div>
+              <div class="route-step">
+                <div class="step-dot end-red"></div>
+                <div class="step-text"><strong>HOUSE 1958</strong> 도착</div>
+              </div>
+            </div>
+          </div>
+          <div class="route-detail-card route-indoor">
+            <div class="route-detail-header">
+              <div class="route-color-dot" style="background:#1B6FC8;"></div>
+              <span>실내 이동 경로</span>
+            </div>
+            <div class="route-detail-steps">
+              <div class="route-step">
+                <div class="step-dot start"></div>
+                <div class="step-text"><strong>채움관 2층</strong> 201호 · Office 사이 출입문</div>
+              </div>
+              <div class="route-step-arrow">↓</div>
+              <div class="route-step">
+                <div class="step-dot mid"></div>
+                <div class="step-text"><strong>L Stay</strong> 통과</div>
+              </div>
+              <div class="route-step-arrow">↓</div>
+              <div class="route-step">
+                <div class="step-dot mid"></div>
+                <div class="step-text"><strong>이음관</strong> 통과</div>
+              </div>
+              <div class="route-step-arrow">↓</div>
+              <div class="route-step">
+                <div class="step-dot mid"></div>
+                <div class="step-text"><strong>나눔관</strong> 통과</div>
+              </div>
+              <div class="route-step-arrow">↓</div>
+              <div class="route-step">
+                <div class="step-dot end-blue"></div>
+                <div class="step-text"><strong>HOUSE 1958</strong> 도착</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Tab 6: 안전수칙 ── -->
+    <section id="tab6" class="tab-panel" role="tabpanel">
+      <div class="section-header reveal">
+        <div class="section-tag">SAFETY</div>
+        <h2 class="section-title">안전수칙</h2>
+        <p class="section-desc">입소 시 유의사항</p>
+      </div>
+      <div class="safe-banner reveal">※ 입소 시 유의사항 ※</div>
+      <div class="safe-grid">
+        <div class="safe-card reveal">
+          <div class="safe-badge"><span class="safe-badge-icon">🍾</span><span class="safe-badge-text">음주 NO</span></div>
+          <div class="safe-divider"></div>
+          <div class="safe-content">
+            <div class="safe-title">주류 반입 및 음주 불가</div>
+            <div class="safe-sub">(공식행사 제외)</div>
+            <p class="safe-desc">규정 위반 시 출입 제한 및 퇴소 조치됩니다.</p>
+          </div>
+        </div>
+        <div class="safe-card reveal">
+          <div class="safe-badge"><span class="safe-badge-icon">💾</span><span class="safe-badge-text">저장매체<br>제한</span></div>
+          <div class="safe-divider"></div>
+          <div class="safe-content">
+            <div class="safe-title">저장매체 반입/반출 제한</div>
+            <div class="safe-sub">&nbsp;</div>
+            <p class="safe-desc">사전에 승인되지 않은 저장매체는 반입/반출이 제한됩니다.</p>
+          </div>
+        </div>
+        <div class="safe-card reveal">
+          <div class="safe-badge"><span class="safe-badge-icon">🚶</span><span class="safe-badge-text">22시 이후<br>서문 제한</span></div>
+          <div class="safe-divider"></div>
+          <div class="safe-content">
+            <div class="safe-title">서문 22시 이후 출입 제한</div>
+            <div class="safe-sub">&nbsp;</div>
+            <p class="safe-desc">22시까지 서문 이용, 그 이후에는 정문을 이용하여 주시기 바랍니다.</p>
+          </div>
+        </div>
+        <div class="safe-card reveal">
+          <div class="safe-badge"><span class="safe-badge-icon">🚬</span><span class="safe-badge-text">흡연 NO</span></div>
+          <div class="safe-divider"></div>
+          <div class="safe-content">
+            <div class="safe-title">사내 모든 시설 금연 구역</div>
+            <div class="safe-sub">&nbsp;</div>
+            <p class="safe-desc">지정된 장소에서만 흡연이 가능합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Tab 8: FAQ ── -->
+    <section id="tab8" class="tab-panel" role="tabpanel">
+      <div class="section-header reveal">
+        <div class="section-tag">FAQ</div>
+        <h2 class="section-title">자주 묻는 질문</h2>
+        <p class="section-desc">교육 참여 전 궁금한 사항을 확인하세요</p>
+      </div>
+      <ul class="faq-list">
+        <li class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">Q</span>
+            <span class="faq-q-text">어디로 가면 되나요? 러닝센터에 차량 등록을 미리 해야하나요?</span>
+            <span class="faq-chevron">›</span>
+          </button>
+          <div class="faq-a">
+            <p>네비게이션에 <span class="highlight">"엘지디지털파크 서문"</span>으로 검색하여 방문해주시기 바랍니다.<br>사전에 차량 등록을 일괄 진행하였으나, 혹시 진입 차단기가 자동으로 열리지 않을 경우 보안 요원에게 <span class="highlight">"임원 AX교육 대상자"</span>라고 말씀해 주시면 즉시 안내받을 수 있습니다.</p>
+          </div>
+        </li>
+        <li class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">Q</span>
+            <span class="faq-q-text">숙소는 어디인가요?</span>
+            <span class="faq-chevron">›</span>
+          </button>
+          <div class="faq-a">
+            <p>교육 장소인 <span class="highlight">채움관 6F ~ 11F</span>에서 숙박하시게 되며, <span class="highlight">숙소 정보는 입소일 오후 3시 문자로 출입코드가 발송</span>됩니다.<br>1인 1실 기준이며, 기본 구비 물품은 수건, 헤어드라이기, 샴푸, 린스, 바디워시, 비누, 세탁기(공용) 입니다.</p>
+          </div>
+        </li>
+        <li class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">Q</span>
+            <span class="faq-q-text">사전숙박 신청자인데요, 숙소는 어디인지 알려주세요.</span>
+            <span class="faq-chevron">›</span>
+          </button>
+          <div class="faq-a">
+            <p>사전입소자는 <span class="highlight">입소당일 15시 문자로 숙소정보가 발송</span>됩니다. (발신번호: 070-4333-1047)<br>숙소 안내문자를 수신하지 못하신 경우, <span class="highlight">"채움관 2층 안내데스크"</span>에서 숙소정보를 재발급받으실 수 있습니다.<br>사전입소 당일에는 석식 이용이 제한되며, 교육 1일차 조식은 [러닝센터 House1958]에서 <span class="highlight">명찰을 패용</span>하신 후 이용 바랍니다.</p>
+          </div>
+        </li>
+        <li class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">Q</span>
+            <span class="faq-q-text">사전숙박을 신청하지 않았는데 숙박을 이용하고 싶어요.</span>
+            <span class="faq-chevron">›</span>
+          </button>
+          <div class="faq-a">
+            <p>사전입소를 신청하지 않으셨지만, 사전입소 하시게 될 경우 <span class="highlight">"채움관 2층 안내데스크"</span>에 문의주시면 숙소를 배정받으실 수 있습니다.</p>
+          </div>
+        </li>
+        <li class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">Q</span>
+            <span class="faq-q-text">흡연자 인데요, 흡연 장소는 어디인가요?</span>
+            <span class="faq-chevron">›</span>
+          </button>
+          <div class="faq-a">
+            <p>흡연구역은 <span class="highlight">각 건물 옥상</span>에 마련되어 있습니다.(채움관: 생기원 방향 옥상, 나눔관·이음관: 옥상 E/V 방향)<br>옥상 흡연구역 이용 시 엘레베이터를 이용해 주시기 바랍니다.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Tab 10: 비상연락망 ── -->
+    <section id="tab10" class="tab-panel" role="tabpanel">
+      <div class="section-header reveal">
+        <div class="section-tag">CONTACT</div>
+        <h2 class="section-title">비상연락망</h2>
+        <p class="section-desc">긴급 상황 시 아래 연락처로 연락주세요</p>
+      </div>
+      <div class="contact-group reveal">
+        <div class="contact-group-title">시설 · 안전</div>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="contact-card-icon">🏨</div>
+            <div class="contact-card-body">
+              <div class="contact-card-label">숙소 문의</div>
+              <span class="contact-card-number">031-8074-5500</span>
+            </div>
+          </div>
+          <div class="contact-card contact-card--urgent">
+            <div class="contact-card-icon">🚨</div>
+            <div class="contact-card-body">
+              <div class="contact-card-label">응급 상황</div>
+              <span class="contact-card-number">031-610-6119</span>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🔒</div>
+            <div class="contact-card-body">
+              <div class="contact-card-label">보안 문의</div>
+              <span class="contact-card-number">031-610-5259</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-group reveal">
+        <div class="contact-group-title">교육 담당자</div>
+        <div class="contact-cards">
+          <div class="contact-card contact-card--staff">
+            <div class="contact-card-icon">👩‍💼</div>
+            <div class="contact-card-body">
+              <div class="contact-card-label">교육 담당자</div>
+              <div class="contact-card-name">리더십개발팀 박선미 책임</div>
+              <span class="contact-card-number">010-2710-0042</span>
+            </div>
+          </div>
+          <div class="contact-card contact-card--staff">
+            <div class="contact-card-icon">👨‍💼</div>
+            <div class="contact-card-body">
+              <div class="contact-card-label">운영 담당자</div>
+              <div class="contact-card-name">교육서비스센터 최부경 선임</div>
+              <span class="contact-card-number">010-9241-8288</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-logo">Learning Center</div>
+    <p>임원 대상 AX 역량 강화 교육 · LG전자 러닝센터</p>
+  </footer>
+
+  <!-- ═══ LIGHTBOX ═══ -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="확대 이미지" />
+  </div>
+
+  <!-- ═══ JAVASCRIPT ═══ -->
+  <script>
+    /* ── Tab switching ── */
+    const tabBtns   = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    function activateTab(tabId) {
+      const target = tabId || 'tab1';
+      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === target));
+      tabPanels.forEach(p => p.classList.toggle('active', p.id === target));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      triggerReveal();
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activateTab(btn.dataset.tab);
+      });
+    });
+
+    /* ── Sticky nav shadow ── */
+    const tabNav = document.getElementById('tabNav');
+    window.addEventListener('scroll', () => {
+      tabNav.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    /* ── Scroll Reveal ── */
+    function triggerReveal() {
+      const reveals = document.querySelectorAll('.reveal:not(.visible)');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      reveals.forEach(el => observer.observe(el));
+    }
+    triggerReveal();
+
+    /* ── Lightbox ── */
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(e) {
+      if (!e || e.target !== document.getElementById('lightboxImg')) {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    /* ── FAQ 아코디언 ── */
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    /* ── 시간표 세션 확장 ── */
+    function toggleSession(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('open');
+    }
+
+    /* ── 드로어 ── */
+    function openDrawer(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeDrawerOnBg(e, id) {
+      if (e.target === document.getElementById(id)) closeDrawer(id);
+    }
+  </script>
+</body>
+</html>
